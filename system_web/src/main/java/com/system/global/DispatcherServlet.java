@@ -20,7 +20,7 @@ public class DispatcherServlet extends GenericServlet {
     public void init() throws ServletException {
         super.init();
         context = new ClassPathXmlApplicationContext("spring.xml");
-        System.out.println("init()...");
+//        System.out.println("init()...");
     }
 
     @Override
@@ -39,13 +39,17 @@ public class DispatcherServlet extends GenericServlet {
             beanName = "selfController";
             methodName = path.substring(0, path.indexOf(".do"));
         }
-        System.out.println(methodName);
+//        System.out.println(methodName);
 
         Object obj = context.getBean(beanName);
         try {
             Method method = obj.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(obj, request, response);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 

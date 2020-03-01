@@ -13,7 +13,7 @@
     <bytecodeTargetLevel>
       <module name="employee-info-system" target="1.5" />
       <module name="system_service" target="1.5" />
-      <module name="system_web" target="1.7" />
+      <module name="system_web" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
