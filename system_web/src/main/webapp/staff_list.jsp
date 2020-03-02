@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Department list</title>
+    <title>Staff list</title>
     <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="../css/common.css"/>
     <link rel="stylesheet" type="text/css" href="../css/thems.css">
@@ -27,23 +28,31 @@
     <div class="right_m">
         <div class="hy_list">
             <div class="box_t">
-                <span class="name">Department List</span>
+                <span class="name">Staff List</span>
             </div>
             <div class="space_hx">&nbsp;</div>
 
             <table cellpadding="0" cellspacing="0" class="list_hy">
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Address</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Born date</th>
+                    <th scope="col">Join date</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Operation</th>
                 </tr>
-                <c:forEach items="${LIST}" var="dep">
+                <c:forEach items="${LIST}" var="staf">
                     <tr>
-                        <td>${dep.name}</td>
-                        <td>${dep.address}</td>
+                        <td>${staf.name}</td>
+                        <td>${staf.sex}</td>
+                        <td><fmt:formatDate value="${staf.bornDate}" pattern="yyyy-MM-dd"/></td>
+                        <td><fmt:formatDate value="${staf.workTime}" pattern="yyyy-MM-dd HH:mm"/> </td>
+                        <td>${staf.department.name}</td>
+                        <td>${staf.status}</td>
                         <td>
-                            <a href="toEdit.do?id=${dep.id}" class="btn">Update</a>
-                            <a href="remove.do?id=${dep.id}" class="btn">Remove</a>
+                            <a href="toEdit.do?id=${staf.id}" class="btn">Update</a>
+                            <a href="remove.do?id=${staf.id}" class="btn">Remove</a>
                         </td>
                     </tr>
                 </c:forEach>
