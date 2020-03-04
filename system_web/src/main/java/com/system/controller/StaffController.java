@@ -1,6 +1,8 @@
 package com.system.controller;
 
+import com.system.entity.Department;
 import com.system.entity.Staff;
+import com.system.service.DepartmentService;
 import com.system.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import java.util.List;
 public class StaffController {
     @Autowired
     private StaffService staffService;
+    @Autowired
+    private DepartmentService departmentService;
 
     // format: staff/list.do  staff_list.jsp
     public void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,6 +31,8 @@ public class StaffController {
     }
 
     public void toAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Department> listDept = departmentService.getAll();
+        request.setAttribute("DLIST", listDept);
         request.getRequestDispatcher("../staff_add.jsp").forward(request, response);
     }
 
@@ -37,9 +43,9 @@ public class StaffController {
         String idNumber = request.getParameter("idNumber");
         String info = request.getParameter("info");
         Integer did = Integer.parseInt(request.getParameter("did"));
-        Date bornDate = null;
+        Date bornDate=null;
         try {
-            bornDate = new SimpleDateFormat().parse(request.getParameter("bornDate"));
+            bornDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("bornDate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -53,6 +59,8 @@ public class StaffController {
         Integer id = Integer.parseInt(request.getParameter("id"));
         Staff staff = staffService.get(id);
         request.setAttribute("OBJ", staff);
+        List<Department> listDept = departmentService.getAll();
+        request.setAttribute("DLIST", listDept);
         request.getRequestDispatcher("../staff_edit.jsp").forward(request, response);
     }
 
@@ -66,7 +74,7 @@ public class StaffController {
         Integer did = Integer.parseInt(request.getParameter("did"));
         Date bornDate = null;
         try {
-            bornDate = new SimpleDateFormat().parse(request.getParameter("bornDate"));
+            bornDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("bornDate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -88,5 +96,12 @@ public class StaffController {
         Integer id = Integer.parseInt(request.getParameter("id"));
         staffService.remove(id);
         response.sendRedirect("list.do");
+    }
+
+    public void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Staff staff = staffService.get(id);
+        request.setAttribute("OBJ",staff);
+        request.getRequestDispatcher("../staff_detail.jsp").forward(request,response);
     }
 }
